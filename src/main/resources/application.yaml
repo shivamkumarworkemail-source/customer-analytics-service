@@ -6,7 +6,7 @@ spring:
     name: customer-analytics-service
 
   datasource:
-    url: jdbc:oracle:thin:@localhost:1521/XEPDB1
+    url: ${DB_URL}
     username: ${DB_USER}
     password: ${DB_PASSWORD}
     driver-class-name: oracle.jdbc.OracleDriver
@@ -26,9 +26,10 @@ logging:
   level:
     root: INFO
     org.springframework.jdbc.core: DEBUG
+    com.devonbank: DEBUG
 
 management:
   endpoints:
     web:
       exposure:
-        include: health,info
+        include: health,info,metrics

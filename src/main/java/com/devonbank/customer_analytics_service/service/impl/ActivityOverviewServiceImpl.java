@@ -3,6 +3,7 @@ package com.devonbank.customer_analytics_service.service.impl;
 import com.devonbank.customer_analytics_service.dto.CustomerActivityOverviewResponse;
 import com.devonbank.customer_analytics_service.dto.CustomerDetailsDTO;
 import com.devonbank.customer_analytics_service.dto.TransactionSummaryDTO;
+import com.devonbank.customer_analytics_service.exception.CustomerNotFoundException;
 import com.devonbank.customer_analytics_service.model.Transaction;
 import com.devonbank.customer_analytics_service.repository.CustomerRepository;
 import com.devonbank.customer_analytics_service.repository.TransactionRepository;
@@ -31,6 +32,11 @@ public class ActivityOverviewServiceImpl implements ActivityOverviewService {
 
         // 1. Fetch Customer
         CustomerDetailsDTO customer = customerRepository.findCustomerById(customerId);
+
+        // If customer not found - throw exception
+        if (customer == null) {
+            throw new CustomerNotFoundException("Customer not found with ID: " + customerId);
+        }
 
         // 2. Fetch last N days transactions
         List<Transaction> transactions =
